@@ -1,0 +1,1 @@
+export const MAX_FILE_SIZE = 10485760 * 5; // 5 MB
