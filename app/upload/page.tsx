@@ -54,7 +54,14 @@ const UploadPage = () => {
     };
 
     return (
-        <div>
+        <main className="p-4 pt-24 max-w-[750px] mx-auto flex flex-col gap-5">
+            <h1 className="font-bold text-3xl text-primary">Upload Your Files - No Login Needed</h1>
+            <h3 className="text-gray-600 font-light font-2xl">
+                Securely upload your files and get a unique code. Share the
+                code, and download your files on any device - fast, simple, and
+                completely anonymous.
+            </h3>
+
             <form onSubmit={handleFormSubmit}>
                 <Input type="file" required onChange={handleFileInputChange} />
                 <Button type="submit">Submit</Button>
@@ -68,7 +75,7 @@ const UploadPage = () => {
                     <p>{file.type}</p>
                 </>
             )}
-        </div>
+        </main>
     );
 };
 
