@@ -16,7 +16,7 @@ const FilePresent = ({
 
             <div className="hidden text-md md:flex flex-row gap-5">
                 <div className="font-bold text-right">
-                    <p>File Name:</p>
+                    <p>File name:</p>
                     <p>File size:</p>
                     <p>File type:</p>
                 </div>

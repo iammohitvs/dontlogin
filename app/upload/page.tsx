@@ -133,7 +133,7 @@ const UploadPage = () => {
                     disabled={!file || pending || success}
                     className="w-fit ml-auto font-bold"
                 >
-                    {pending ? "Uplaoding..." : "Uplaod"}
+                    {pending ? "Uploading..." : "Upload"}
                 </Button>
             </form>
 
