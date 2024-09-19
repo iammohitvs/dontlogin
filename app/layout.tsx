@@ -15,6 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL('http://dontlogin.vercel.app'),
     title: {
         default: "dontLogin",
         template: "%s - dontLogin",
