@@ -1,6 +1,6 @@
 import WhyThisExistsDialog from "@/components/WhyThisExistsDialog";
 import { Button } from "@/components/ui/button";
-import { FileDown, FileUp } from "lucide-react";
+import { FileDown, FileUp, GithubIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -55,6 +55,10 @@ export default function Home() {
                     </div>
 
                     <WhyThisExistsDialog />
+
+                    <Link href="https://github.com/iammohitvs/dontlogin" target="_blank">
+                        <GithubIcon className="mx-auto mt-5 text-primary" />
+                    </Link>
                 </div>
             </div>
         </main>
