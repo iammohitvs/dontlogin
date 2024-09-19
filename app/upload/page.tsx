@@ -2,48 +2,75 @@
 
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import FilePresent from "../../components/FilePresent";
 import { bytesToMb, computeSHA256 } from "@/lib/utils";
-import { getPresignedURL } from "../actions";
+import api from "@/lib/axiosInstance";
+import { dbEntryResponse, getUrlResponse } from "@/lib/types";
+import { AlertCircle, FileCheck, Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Label } from "@/components/ui/label";
 
 const UploadPage = () => {
     const [file, setFile] = useState<File | null>(null);
+    const [code, setCode] = useState<string | null>(null);
+
+    const [error, setError] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
+    const [pending, setPending] = useState<boolean>(false);
 
     const handleFormSubmit = async (
         event: React.FormEvent<HTMLFormElement>
     ) => {
         event.preventDefault();
 
-        console.log(file);
-
-        if(!file) {
-            return
-        }
-
-        const preSignedURLResult = await getPresignedURL({
-            fileSize: file.size,
-            fileType: file.type,
-            checksum: await computeSHA256(file),
-        });
-
-        if (preSignedURLResult.failure !== undefined) {
-            console.error(preSignedURLResult.failure);
+        if (!file) {
             return;
         }
 
-        const { url } = preSignedURLResult.success;
-        console.log(url.split("?")[0]);
+        setPending(true);
 
-        const res = await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": file.type,
-            },
-            body: file,
-        });
+        try {
+            const preSignedUrlResponse = await api.post("/api/geturl", {
+                fileSize: file.size,
+                fileType: file.type,
+                checksum: await computeSHA256(file),
+            });
 
-        console.log(res)
+            const {
+                fileInfo: { url, fileName },
+                message,
+            } = preSignedUrlResponse.data as getUrlResponse;
+
+            const fileUploadResponse = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": file.type,
+                },
+                body: file,
+            });
+
+            if (!fileUploadResponse.ok) {
+                console.error(fileUploadResponse);
+                throw new Error((await fileUploadResponse.json()).message);
+            }
+
+            const dbEntryResponse = await api.post("/api/createdbentry", {
+                fileLink: url,
+                fileName,
+            });
+
+            const { code } = dbEntryResponse.data as dbEntryResponse;
+
+            setCode(code);
+            setSuccess(true);
+            setError(false);
+        } catch (error) {
+            setError(true);
+            setSuccess(false);
+        }
+        setPending(false);
     };
 
     const handleFileInputChange = async (
@@ -54,26 +81,91 @@ const UploadPage = () => {
     };
 
     return (
-        <main className="p-4 pt-24 max-w-[750px] mx-auto flex flex-col gap-5">
-            <h1 className="font-bold text-3xl text-primary">Upload Your Files - No Login Needed</h1>
+        <main className="p-4 pt-24 max-w-[640px] mx-auto flex flex-col gap-5">
+            <h1 className="font-bold text-3xl text-primary">
+                Upload Your File
+            </h1>
             <h3 className="text-gray-600 font-light font-2xl">
-                Securely upload your files and get a unique code. Share the
-                code, and download your files on any device - fast, simple, and
-                completely anonymous.
+                After the upload, get your unique access code and share it!
             </h3>
+            <div>
+                <p className="font-bold text-lg">
+                    Note: The file should not be greater than 10MB.
+                </p>
+                <p className="font-bold text-lg">
+                    Note: The file will automatically be deleted after 1 day.
+                </p>
+                <p className="font-bold text-lg">
+                    Note: Leaving this page post upload will mean that you lose
+                    your code; so tread lightly!
+                </p>
+            </div>
 
-            <form onSubmit={handleFormSubmit}>
-                <Input type="file" required onChange={handleFileInputChange} />
-                <Button type="submit">Submit</Button>
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
+                <div className="flex flex-row gap-3 items-center group">
+                    <Label
+                        htmlFor="fileInput"
+                        className="text-xl font-bold group-hover:cursor-pointer"
+                    >
+                        File:
+                    </Label>
+                    <Input
+                        id="fileInput"
+                        type="file"
+                        required
+                        onChange={handleFileInputChange}
+                        className="group-hover:cursor-pointer"
+                    />
+                </div>
+
+                {file && (
+                    <>
+                        <FilePresent
+                            name={file.name}
+                            size={Number(bytesToMb(file.size))}
+                            type={file.type}
+                        />
+                    </>
+                )}
+                <Button
+                    type="submit"
+                    disabled={!file || pending || success}
+                    className="w-fit ml-auto font-bold"
+                >
+                    {pending ? "Uplaoding..." : "Uplaod"}
+                </Button>
             </form>
 
-            {file && (
-                <>
-                    <FilePresent />
-                    <p>{file.name}</p>
-                    <p>{bytesToMb(file.size)} mb</p>
-                    <p>{file.type}</p>
-                </>
+            {error && (
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        An error ocurred trying to upload your file. Maybe it's
+                        too large?
+                    </AlertDescription>
+                </Alert>
+            )}
+
+            {success && (
+                <Alert>
+                    <Terminal className="h-4 w-4" />
+                    <AlertTitle>Success</AlertTitle>
+                    <AlertDescription>
+                        File has been uploaded! Go to{" "}
+                        <Link href="/download" className="underline">
+                            download page
+                        </Link>
+                    </AlertDescription>
+                </Alert>
+            )}
+
+            {code && (
+                <div className="border-[1px] text-green-800 border-green-900 bg-green-100 p-5 rounded-md flex flex-row gap-1 items-center">
+                    <FileCheck className="mr-3" />
+                    Your Download Code is
+                    <span className="font-bold">{code}</span>
+                </div>
             )}
         </main>
     );

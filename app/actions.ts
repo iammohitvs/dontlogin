@@ -1,27 +1,10 @@
 "use server";
 
 import { MAX_FILE_SIZE } from "@/lib/constants";
+import { GetSignedURLParams, SignedURLResponse } from "@/lib/types";
 import { generateFileName } from "@/lib/utils";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-
-type SignedURLResponse =
-    | {
-          failure: string;
-          success?: undefined;
-      }
-    | {
-          success: {
-              url: string;
-          };
-          failure?: undefined;
-      };
-
-type GetSignedURLParams = {
-    fileType: string;
-    fileSize: number;
-    checksum: string;
-};
 
 const s3Client = new S3Client({
     region: process.env.AWS_BUCKET_REGION!,
@@ -40,17 +23,19 @@ export async function getPresignedURL({
         return { failure: "File size too large" };
     }
 
+    const fileName = generateFileName();
+
     const putObjectCommand = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: generateFileName(),
+        Key: fileName,
         ContentType: fileType,
         ContentLength: fileSize,
         ChecksumSHA256: checksum,
     });
 
     const url = await getSignedUrl(s3Client, putObjectCommand, {
-        expiresIn: 60,
+        expiresIn: 120,
     });
 
-    return { success: { url } };
+    return { success: { url, fileName } };
 }

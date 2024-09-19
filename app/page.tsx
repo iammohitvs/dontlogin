@@ -47,7 +47,7 @@ export default function Home() {
                                 <FileUp color="white" className="ml-2" />
                             </Button>
                         </Link>
-                        <Link href="/downlaod">
+                        <Link href="/download">
                             <Button variant="secondary" className="py-6">
                                 Download a file <FileDown className="ml-2" />
                             </Button>

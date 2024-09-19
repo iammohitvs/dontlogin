@@ -4,7 +4,7 @@ import React from "react";
 
 const RulesPage = () => {
     return (
-        <div className="pt-24 max-w-[500px] mx-auto flex flex-col gap-5">
+        <main className="pt-24 max-w-[500px] mx-auto flex flex-col gap-5 px-3">
             <Link
                 href="/upload"
                 className="group text-primary flex flex-row gap-3 w-fit mx-auto text-2xl items-center hover:underline font-bold"
@@ -21,7 +21,7 @@ const RulesPage = () => {
                     <Link className="text-primary font-bold" href="/upload">
                         upload page
                     </Link>{" "}
-                    using the above link and chooosing{" "}
+                    using the above link and choosing{" "}
                     <span className="text-primary font-bold">
                         one single file{" "}
                     </span>
@@ -40,18 +40,19 @@ const RulesPage = () => {
                     to access that file on any other system on the internet!
                 </li>
                 <li>
-                    And that's it! If it was helpful, help out by starring this on{" "}
-                    <Link href="https://github.com/iammohitvs/dontlogin" className="font-bold text-primary">
+                    And that's it! If it was helpful, help out by starring this
+                    on{" "}
+                    <Link
+                        href="https://github.com/iammohitvs/dontlogin"
+                        target="_blank"
+                        className="font-bold text-primary"
+                    >
                         github
                     </Link>
                     !
                 </li>
             </ol>
-
-            <p className="font-bold text-xl">
-                Note: The file should not be greater than 10MB.
-            </p>
-        </div>
+        </main>
     );
 };
 
