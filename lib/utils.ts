@@ -28,5 +28,5 @@ export const generateFileName = (bytes = 32) => {
 };
 
 export const generate6DigitCode = () => {
-    return Math.floor(Math.random() * 10 ** 6);
+    return Math.floor(100000 + Math.random() * 900000);
 };
