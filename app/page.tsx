@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Home() {
     return (
-        <main className="min-h-screen">
+        <main className="min-h-screen max-h-screen overflow-hidden">
             <div className="relative min-h-screen grid place-items-center isolate px-6 pt-14 lg:px-8">
                 <div
                     aria-hidden="true"
