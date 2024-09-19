@@ -40,7 +40,6 @@ const UploadPage = () => {
 
             const {
                 fileInfo: { url, fileName },
-                message,
             } = preSignedUrlResponse.data as getUrlResponse;
 
             const fileUploadResponse = await fetch(url, {
@@ -67,8 +66,10 @@ const UploadPage = () => {
             setSuccess(true);
             setError(false);
         } catch (error) {
-            setError(true);
-            setSuccess(false);
+            if (error) {
+                setError(true);
+                setSuccess(false);
+            }
         }
         setPending(false);
     };
@@ -141,7 +142,7 @@ const UploadPage = () => {
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>
-                        An error ocurred trying to upload your file. Maybe it's
+                        An error ocurred trying to upload your file. Maybe it&apos;s
                         too large?
                     </AlertDescription>
                 </Alert>

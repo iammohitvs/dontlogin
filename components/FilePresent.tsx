@@ -1,4 +1,4 @@
-import { File, FileUp } from "lucide-react";
+import { FileUp } from "lucide-react";
 import React from "react";
 
 const FilePresent = ({
@@ -33,7 +33,8 @@ const FilePresent = ({
                         File Name: <span className="font-normal">{name}</span>
                     </p>
                     <p className="mb-2">
-                        File Size: <span className="font-normal">{size} MB</span>
+                        File Size:{" "}
+                        <span className="font-normal">{size} MB</span>
                     </p>
                     <p className="mb-2">
                         File Type: <span className="font-normal">{type}</span>

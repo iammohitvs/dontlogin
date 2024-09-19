@@ -45,7 +45,7 @@ const RulesPage = () => {
                     to access that file on any other system on the internet!
                 </li>
                 <li>
-                    And that's it! If it was helpful, help out by starring this
+                    And that&apos;s it! If it was helpful, help out by starring this
                     on{" "}
                     <Link
                         href="https://github.com/iammohitvs/dontlogin"

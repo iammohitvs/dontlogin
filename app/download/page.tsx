@@ -49,8 +49,10 @@ const DownloadPage = () => {
             setSuccess(true);
             setError(false);
         } catch (error) {
-            setError(true);
-            setSuccess(false);
+            if (error) {
+                setError(true);
+                setSuccess(false);
+            }
         }
 
         setPending(false);
@@ -109,7 +111,11 @@ const DownloadPage = () => {
                 <div className="border-[1px] text-green-800 border-green-900 bg-green-100 p-5 rounded-md flex flex-row items-center">
                     <CircleCheck className="mr-3" />
                     Your can access your file using this
-                    <Link href={link} className="font-bold underline ml-1" target="_blank">
+                    <Link
+                        href={link}
+                        className="font-bold underline ml-1"
+                        target="_blank"
+                    >
                         link
                     </Link>
                 </div>
