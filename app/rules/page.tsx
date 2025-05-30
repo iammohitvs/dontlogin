@@ -116,7 +116,7 @@ const RulesPage = () => {
             <div className="text-center">
                 <Link
                     href="/upload"
-                    className="group inline-flex items-center gap-3 px-6 py-3 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition-all"
+                    className="group inline-flex items-center gap-3 px-6 py-3 bg-primary text-white font-semibold rounded-md hover:bg-violet-700 transition-all"
                 >
                     Upload Page
                     <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
