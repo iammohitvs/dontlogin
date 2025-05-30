@@ -8,9 +8,17 @@ import FilePresent from "../../components/FilePresent";
 import { bytesToMb, computeSHA256 } from "@/lib/utils";
 import api from "@/lib/axiosInstance";
 import { dbEntryResponse, getUrlResponse } from "@/lib/types";
-import { AlertCircle, FileCheck, Terminal } from "lucide-react";
+import {
+    AlertCircle,
+    AlertTriangle,
+    Clock,
+    FileCheck,
+    FileText,
+    Terminal,
+} from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
+import Dropzone from "@/components/FileUpload";
 
 const UploadPage = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -81,43 +89,44 @@ const UploadPage = () => {
         setFile(file);
     };
 
+    const removeFile = () => {
+        setFile(null);
+    };
+
     return (
         <main className="p-4 pt-24 max-w-[640px] mx-auto flex flex-col gap-5">
-            <h1 className="font-bold text-3xl text-primary">
+            <h1 className="font-bold text-3xl">
                 Upload Your File
             </h1>
             <h3 className="text-gray-600 font-light font-2xl">
                 After the upload, get your unique access code and share it!
             </h3>
-            <div>
-                <p className="font-bold text-lg">
-                    Note: The file should not be greater than 10MB.
-                </p>
-                <p className="font-bold text-lg">
-                    Note: The file will automatically be deleted after 1 day.
-                </p>
-                <p className="font-bold text-lg">
-                    Note: Leaving this page post upload will mean that you lose
-                    your code; so tread lightly!
-                </p>
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                    <FileText className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-purple-800">
+                        File size limit: 10MB maximum
+                    </p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-purple-800">
+                        Files are automatically deleted after 24 hours
+                    </p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <AlertTriangle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-purple-800">
+                        Leaving this page after upload will result in loss of
+                        your access code
+                    </p>
+                </div>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
-                <div className="flex flex-row gap-3 items-center group">
-                    <Label
-                        htmlFor="fileInput"
-                        className="text-xl font-bold group-hover:cursor-pointer"
-                    >
-                        File:
-                    </Label>
-                    <Input
-                        id="fileInput"
-                        type="file"
-                        required
-                        onChange={handleFileInputChange}
-                        className="group-hover:cursor-pointer"
-                    />
-                </div>
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+                {!file && (
+                    <Dropzone handleFileInputChange={handleFileInputChange} />
+                )}
 
                 {file && (
                     <>
@@ -125,16 +134,20 @@ const UploadPage = () => {
                             name={file.name}
                             size={Number(bytesToMb(file.size))}
                             type={file.type}
+                            removeFile={removeFile}
+                            isremoveDisabled={!file || pending || success}
                         />
                     </>
                 )}
-                <Button
-                    type="submit"
-                    disabled={!file || pending || success}
-                    className="w-fit ml-auto font-bold"
-                >
-                    {pending ? "Uploading..." : "Upload"}
-                </Button>
+                <div className="flex flex-row justify-end">
+                    <Button
+                        type="submit"
+                        disabled={!file || pending || success}
+                        className="w-fit font-bold"
+                    >
+                        {pending ? "Uploading..." : "Upload"}
+                    </Button>
+                </div>
             </form>
 
             {error && (
@@ -142,8 +155,8 @@ const UploadPage = () => {
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>
-                        An error ocurred trying to upload your file. Maybe it&apos;s
-                        larger than 10 MB?
+                        An error ocurred trying to upload your file. Maybe
+                        it&apos;s larger than 10 MB?
                     </AlertDescription>
                 </Alert>
             )}

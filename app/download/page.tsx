@@ -60,7 +60,7 @@ const DownloadPage = () => {
 
     return (
         <main className="p-4 pt-24 max-w-[500px] mx-auto flex flex-col gap-5">
-            <h1 className="font-bold text-3xl text-primary">
+            <h1 className="font-bold text-3xl">
                 Download Your File
             </h1>
             <h3 className="text-gray-600 font-light font-2xl">
