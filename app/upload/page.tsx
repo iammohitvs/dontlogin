@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import FilePresent from "../../components/FilePresent";
@@ -17,7 +16,6 @@ import {
     Terminal,
 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Label } from "@/components/ui/label";
 import Dropzone from "@/components/FileUpload";
 
 const UploadPage = () => {

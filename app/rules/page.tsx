@@ -98,7 +98,7 @@ const RulesPage = () => {
                             Share the Love
                         </h3>
                         <p className="text-gray-600">
-                            That's it! If this was helpful, consider starring this
+                            That&apos;s it! If this was helpful, consider starring this
                             on{" "}
                             <Link
                                 href="https://github.com/iammohitvs/dontlogin"
