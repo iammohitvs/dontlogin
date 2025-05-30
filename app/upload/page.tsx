@@ -143,7 +143,7 @@ const UploadPage = () => {
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>
                         An error ocurred trying to upload your file. Maybe it&apos;s
-                        too large?
+                        larger than 10 MB?
                     </AlertDescription>
                 </Alert>
             )}
