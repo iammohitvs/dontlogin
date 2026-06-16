@@ -23,7 +23,7 @@ const WhyThisExistsDialog = () => {
                         me to upload a file I had been working onto google
                         classroom, and that meant I had to log into my google
                         account on a university computer. I take my privacy
-                        seriously, and so I typically don't login using such
+                        seriously, and so I typically don&apos;t login using such
                         accounts on random computers! Even if I wanted to share
                         it to my phone, I would have to open WhatsApp Web or
                         any other service with auth. <br /> Hence the idea, 
