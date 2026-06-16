@@ -20,16 +20,16 @@ const WhyThisExistsDialog = () => {
                 <DialogHeader>
                     <DialogDescription className="text-md p-3">
                         I was at college when my computer science teacher asked
-                        me to share a file I had been working on to our google
+                        me to upload a file I had been working onto google
                         classroom, and that meant I had to log into my google
                         account on a university computer. I take my privacy
-                        seriously, and so I typically dont login using such
-                        accounts on random computers. Even if I wanted to share
-                        it with my phone, I would have to open WhatsApp web or
-                        any other service with a login. So the idea came to me
-                        to build an anonymous sharing platform, where you can
-                        share you files and retreive them without any
-                        authentication needed. Seamless, and hassle-free! 😃
+                        seriously, and so I typically don't login using such
+                        accounts on random computers! Even if I wanted to share
+                        it to my phone, I would have to open WhatsApp Web or
+                        any other service with auth. <br /> Hence the idea, 
+                        to build a file sharing platform, that functions
+                        without any authentication. 
+                        <br /> Seamless, and hassle-free! 😃
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
